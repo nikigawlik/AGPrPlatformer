@@ -11,12 +11,15 @@ public class PlayerController : MonoBehaviour {
 	public int numberOfRaycasts = 8;
 
 	private Rigidbody2D rb;
+	private Animator anim;
+
 	private Vector2 startPos;
 	private Vector2 lastGroundNormal = Vector2.up;
 
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody2D>();
+		anim = GetComponent<Animator>();
 		startPos = transform.position;
 	}
 	
@@ -99,6 +102,9 @@ public class PlayerController : MonoBehaviour {
 		if(Input.GetButtonDown("Jump") && onGround) {
 			rb.AddForce(lastGroundNormal * jumpStrength, ForceMode2D.Impulse);
 		}
+
+		// animation info
+		anim.SetBool("armsRaised", GetHorizontalInput() != 0);
 	}
 
 	/// <summary>
