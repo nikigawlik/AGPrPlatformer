@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/// <summary>
+/// Source:
+/// http://answers.unity3d.com/questions/835675/how-to-fill-polygon-collider-with-a-solid-color.html
+/// </summary>
+
+using UnityEngine;
 
 [RequireComponent(typeof(PolygonCollider2D))]
 [RequireComponent(typeof(MeshFilter))]
