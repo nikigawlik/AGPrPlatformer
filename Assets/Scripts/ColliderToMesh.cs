@@ -12,6 +12,9 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class ColliderToMesh : MonoBehaviour {
     PolygonCollider2D pc2 ;
+
+    private Vector2[] pointCache;
+
     void Start () {
         pc2 = gameObject.GetComponent<PolygonCollider2D>();
     }
@@ -29,6 +32,11 @@ public class ColliderToMesh : MonoBehaviour {
             lr.positionCount = pointCount;// + 1;
             Mesh mesh = new Mesh();
             Vector2[] points = pc2.points;
+            if (points == pointCache) {
+                return;
+            }
+            pointCache = points;
+
             Vector3[] vertices = new Vector3[pointCount];
             Vector2[] uv = new Vector2[pointCount];
             for(int j=0; j<pointCount; j++){
