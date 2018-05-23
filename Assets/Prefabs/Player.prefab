@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 50087003902071990}
   - component: {fileID: 114489374156699848}
   m_Layer: 0
-  m_Name: player
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,9 +91,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 1000
   moveAcc: 0.1
-  angleDragWhileStopping: 10
   uprightTorque: 1
   jumpStrength: 10
+  groundRayLength: 0.1
+  numberOfRaycasts: 8
 --- !u!212 &212393834246162496
 SpriteRenderer:
   m_ObjectHideFlags: 1
