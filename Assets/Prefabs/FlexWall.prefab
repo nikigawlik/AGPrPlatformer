@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 263886fc69321f94ea3c92f9098ae49b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scale: {x: 1, y: 1}
 --- !u!120 &120878872803854796
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -165,7 +166,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.48
+    widthMultiplier: 0.3
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -212,8 +213,8 @@ LineRenderer:
       m_NumAlphaKeys: 2
     numCornerVertices: 0
     numCapVertices: 0
-    alignment: 0
+    alignment: 1
     textureMode: 1
     generateLightingData: 0
   m_UseWorldSpace: 0
-  m_Loop: 1
+  m_Loop: 0

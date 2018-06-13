@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour {
 	public float groundRayLength = 0.1f;
 	public int numberOfRaycasts = 8;
 
+	public GameObject display;
+
 	private Rigidbody2D rb;
 	private Animator anim;
 
@@ -36,28 +38,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		// calculate the velocity we want to have
-		float targetV = GetHorizontalInput() * moveSpeed;
-		// calculate velocity in movement direction
-		float currentV = Vector2.Dot(Vector2.right, rb.velocity);
-
-		if(targetV != 0) {
-			float delta = targetV - currentV;
-			float acc = Mathf.Clamp(delta, -moveAcc, moveAcc);
-			// Debug.Log("targetV: " + targetV);
-			// Debug.Log("currentV: " + currentV);
-			// Debug.Log("targetV: " + targetV);	
-
-			rb.AddForce(Vector2.right * acc, ForceMode2D.Impulse);
-		}
-
-		if(Mathf.Abs(GetHorizontalInput()) < 0.2) {
-			GoUpright();
-		}
-
 		// jumping
 		CircleCollider2D cc = GetComponent<CircleCollider2D>();
-		
 		bool onGround = false;
 		
 		// we skip 0 because 1 also evaluates to zero offset, and we don't need to do this twice
@@ -99,22 +81,47 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
+		// movement
+		if(onGround) {
+			// calculate the velocity we want to have
+			float targetV = GetHorizontalInput() * moveSpeed;
+			// calculate velocity in movement direction
+			float currentV = Vector2.Dot(display.transform.right, rb.velocity);
+
+			if(targetV != 0) {
+				float delta = targetV - currentV;
+				float acc = Mathf.Clamp(delta, -moveAcc, moveAcc);
+				// Debug.Log("targetV: " + targetV);
+				// Debug.Log("currentV: " + currentV);
+				// Debug.Log("targetV: " + targetV);	
+
+				rb.AddForce(display.transform.right * acc, ForceMode2D.Impulse);
+			}
+
+			// if(Mathf.Abs(GetHorizontalInput()) < 0.2) {
+			// 	GoUpright();
+			// }
+		}
+
 		if(Input.GetButtonDown("Jump") && onGround) {
 			rb.AddForce(lastGroundNormal * jumpStrength, ForceMode2D.Impulse);
 		}
 
 		// animation info
-		anim.SetBool("armsRaised", GetHorizontalInput() != 0);
+		float rotation = Mathf.Atan2(lastGroundNormal.y, lastGroundNormal.x) * Mathf.Rad2Deg - 90;
+		display.transform.rotation = Quaternion.Euler(0, 0, rotation);
+
+		GetComponentInChildren<Animator>().SetFloat("tangentSpeed", rb.velocity.magnitude);
 	}
 
-	/// <summary>
-	/// Applies torque so that the character stands upright (rotation == 0)
-	/// </summary>
-	void GoUpright() {
-		float torque = Mathf.DeltaAngle(rb.rotation, Vector2.SignedAngle(Vector2.up, lastGroundNormal)) * Mathf.Deg2Rad;
-		torque = Mathf.Clamp(torque, -uprightTorque, uprightTorque);
-		rb.AddTorque(torque, ForceMode2D.Impulse);
-	}
+	// /// <summary>
+	// /// Applies torque so that the character stands upright (rotation == 0)
+	// /// </summary>
+	// void GoUpright() {
+	// 	float torque = Mathf.DeltaAngle(rb.rotation, Vector2.SignedAngle(Vector2.up, lastGroundNormal)) * Mathf.Deg2Rad;
+	// 	torque = Mathf.Clamp(torque, -uprightTorque, uprightTorque);
+	// 	rb.AddTorque(torque, ForceMode2D.Impulse);
+	// }
 
 	float GetHorizontalInput() {
 		// TODO replace this with controller compatible solution

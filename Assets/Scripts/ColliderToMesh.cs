@@ -11,7 +11,9 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 [ExecuteInEditMode]
 public class ColliderToMesh : MonoBehaviour {
-    PolygonCollider2D pc2 ;
+    public Vector2 scale = Vector2.one;
+
+    private PolygonCollider2D pc2 ;
 
     private Vector2[] pointCache;
 
@@ -28,8 +30,6 @@ public class ColliderToMesh : MonoBehaviour {
             int pointCount = 0;
             pointCount = pc2.GetTotalPointCount();
             MeshFilter mf = GetComponent<MeshFilter>();
-            LineRenderer lr = GetComponent<LineRenderer>();
-            lr.positionCount = pointCount;// + 1;
             Mesh mesh = new Mesh();
             Vector2[] points = pc2.points;
             if (points == pointCache) {
@@ -37,14 +37,40 @@ public class ColliderToMesh : MonoBehaviour {
             }
             pointCache = points;
 
+
+            LineRenderer lr = GetComponent<LineRenderer>();
+            lr.positionCount = 0;// + 1;
+
+            int leftPointID = 0;
+            int rightPointID = 0;
+
+            for(int j=0; j<pointCount; j++){
+                if(points[j].x < points[leftPointID].x) {
+                    leftPointID = j;
+                }
+                if(points[j].x > points[rightPointID].x) {
+                    rightPointID = j;
+                }
+            }
+
+            int currentPointID = rightPointID;
+            int runningID = 0;
+                
+            while(currentPointID != leftPointID) {
+                lr.positionCount = runningID + 1;
+                lr.SetPosition(runningID, new Vector3(points[currentPointID].x, points[currentPointID].y, 0));
+
+                currentPointID++;
+                currentPointID = currentPointID % points.Length;
+                runningID++;
+            }
+
             Vector3[] vertices = new Vector3[pointCount];
             Vector2[] uv = new Vector2[pointCount];
             for(int j=0; j<pointCount; j++){
                 Vector2 actual = points[j];
                 vertices[j] = new Vector3(actual.x, actual.y, 0);
-                uv[j] = actual;
-
-                lr.SetPosition(j, new Vector3(actual.x, actual.y, 0));
+                uv[j] = actual / scale;
             }
             // lr.SetPosition(pointCount, new Vector3(points[0].x, points[0].y, 0));
             Triangulator tr = new Triangulator(points);
