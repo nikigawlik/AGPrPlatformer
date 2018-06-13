@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
@@ -88,8 +89,9 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Respawn() {
-		transform.position = startPos;
-		rb.velocity = Vector2.zero;
+		// transform.position = startPos;
+		// rb.velocity = Vector2.zero;
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 	}
 
 	void FixedUpdate() {
