@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 	public float moveSpeed = 5f;
+	public float airSpeed = 1f;
 	public float moveAcc = .1f;
 	public float uprightTorque = 10f;
 	public float jumpStrength = 10f;
 	public float groundRayLength = 0.1f;
 	public int numberOfRaycasts = 8;
+
+	public float jumpCooldown = 0.2f;
+	private float jumpCounter = 0f;
 
 	public GameObject display;
 
@@ -21,7 +25,7 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody2D>();
-		anim = GetComponent<Animator>();
+		anim = GetComponentInChildren<Animator>();
 		startPos = transform.position;
 	}
 	
@@ -91,9 +95,6 @@ public class PlayerController : MonoBehaviour {
 			if(targetV != 0) {
 				float delta = targetV - currentV;
 				float acc = Mathf.Clamp(delta, -moveAcc, moveAcc);
-				// Debug.Log("targetV: " + targetV);
-				// Debug.Log("currentV: " + currentV);
-				// Debug.Log("targetV: " + targetV);	
 
 				rb.AddForce(display.transform.right * acc, ForceMode2D.Impulse);
 			}
@@ -101,17 +102,44 @@ public class PlayerController : MonoBehaviour {
 			// if(Mathf.Abs(GetHorizontalInput()) < 0.2) {
 			// 	GoUpright();
 			// }
+
+			// visuals
+			if(targetV != 0) {
+				display.transform.localScale = new Vector3(Mathf.Sign(targetV), 1, 1);
+			}
+			anim.SetFloat("tangentSpeed", Mathf.Abs(currentV));
+			// anim.speed = Mathf.Abs(currentV) * animSpeedMod;
+		} else {
+			
+			// calculate the velocity we want to have
+			float targetV = GetHorizontalInput() * airSpeed;
+			// calculate velocity in movement direction
+			float currentV = Vector2.Dot(Vector3.right, rb.velocity);
+
+			if(targetV != 0 && Mathf.Abs(targetV) > Mathf.Abs(currentV)) {
+				float delta = targetV - currentV;
+				float acc = Mathf.Clamp(delta, -moveAcc, moveAcc);
+				rb.AddForce(Vector3.right * acc, ForceMode2D.Impulse);
+			}
+
+			// smooth towards flying dir
+			Vector2 velNormal = -rb.velocity.normalized;
+			lastGroundNormal = Vector2.Lerp(lastGroundNormal, velNormal, 0.03f);
 		}
 
-		if(Input.GetButtonDown("Jump") && onGround) {
+		if(Input.GetButtonDown("Jump") && onGround && jumpCounter <= 0) {
 			rb.AddForce(lastGroundNormal * jumpStrength, ForceMode2D.Impulse);
+			jumpCounter = jumpCooldown;
+			anim.SetTrigger("jump");
 		}
+
+		jumpCounter = Mathf.Max(jumpCounter - Time.fixedDeltaTime, 0);
 
 		// animation info
 		float rotation = Mathf.Atan2(lastGroundNormal.y, lastGroundNormal.x) * Mathf.Rad2Deg - 90;
 		display.transform.rotation = Quaternion.Euler(0, 0, rotation);
 
-		GetComponentInChildren<Animator>().SetFloat("tangentSpeed", rb.velocity.magnitude);
+		anim.SetBool("onGround", onGround);
 	}
 
 	// /// <summary>

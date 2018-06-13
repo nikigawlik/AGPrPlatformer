@@ -1,11 +1,13 @@
 fileFormatVersion: 2
-guid: d345899281e8ab24b9ef5c7e6fe818a6
+guid: 7a8a99f0e3a8ca547a75f4eeb060fbbf
 TextureImporter:
   fileIDToRecycleName:
-    21300000: playerSheet_0
-    21300002: playerSheet_1
-    21300004: playerSheet_2
-    21300006: playerSheet_3
+    21300000: player_fall_0
+    21300002: player_fall_1
+    21300004: player_fall_2
+    21300006: player_fall_3
+    21300008: player_fall_4
+    21300010: player_fall_5
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
@@ -33,7 +35,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -47,7 +49,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 80
+  spritePixelsToUnits: 42
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -65,7 +67,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -76,7 +78,18 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -86,13 +99,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: playerSheet_0
+      name: player_fall_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
-        height: 64
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -100,19 +113,39 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d4476f6adb93794ca64fbb54c8c86b1
+      spriteID: 6914f11b6136d7f44adeeb4f40abfbb4
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerSheet_1
+      name: player_fall_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9646efc4b26a6e4d8f5b4a9cfc62195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_fall_2
       rect:
         serializedVersion: 2
         x: 64
         y: 0
-        width: 64
-        height: 64
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -120,19 +153,39 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 27f78cfd255466748b3302c3d829d580
+      spriteID: 79dfab2cec7da874ebf36eec9629816f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerSheet_2
+      name: player_fall_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d47acd318effb5d45b0a9fc837375fb0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_fall_4
       rect:
         serializedVersion: 2
         x: 128
         y: 0
-        width: 64
-        height: 64
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,19 +193,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b273ac72918e02644b38234b158a16c8
+      spriteID: 57196a982855fd449be1db71f116318e
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerSheet_3
+      name: player_fall_5
       rect:
         serializedVersion: 2
-        x: 192
+        x: 160
         y: 0
-        width: 64
-        height: 64
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,7 +213,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4fe88337e5c4fad4aa1c9ec3a0455c67
+      spriteID: 0c2badf7cb666044b898ad07400cfd12
       vertices: []
       indices: 
       edges: []
@@ -168,7 +221,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: ca24545a3fd7dfb4d93328bebb2e0917
+    spriteID: 067a550233d31d84283b58830cd98127
     vertices: []
     indices: 
     edges: []
