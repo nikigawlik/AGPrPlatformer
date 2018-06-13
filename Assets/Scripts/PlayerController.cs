@@ -3,6 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
+
+	public class ActivePowerUp
+	{
+		public float durationLeft;
+		public PowerUp powerUp;
+
+		private PlayerController player;
+
+		public ActivePowerUp(PowerUp powerUp, PlayerController player) {
+			this.powerUp = powerUp;
+			this.durationLeft = powerUp.duration;
+			this.player = player;
+
+			powerUp.ApplyPowerUp(player);
+		}
+
+		public void UnInit() {
+			powerUp.UnapplyPoweUp(player);
+		}
+	}
+
 	public float moveSpeed = 5f;
 	public float airSpeed = 1f;
 	public float moveAcc = .1f;
@@ -14,7 +35,11 @@ public class PlayerController : MonoBehaviour {
 	public float jumpCooldown = 0.2f;
 	private float jumpCounter = 0f;
 
+	// [HideInInspector]
+	public float speedModifier = 1f;
+
 	public GameObject display;
+	public GameObject powerUpDisplay;
 
 	private Rigidbody2D rb;
 	private Animator anim;
@@ -22,17 +47,43 @@ public class PlayerController : MonoBehaviour {
 	private Vector2 startPos;
 	private Vector2 lastGroundNormal = Vector2.up;
 
+	private List<ActivePowerUp> activePowerUps;
+
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody2D>();
 		anim = GetComponentInChildren<Animator>();
 		startPos = transform.position;
+
+		activePowerUps = new List<ActivePowerUp>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		UpdatePowerUps();
+
 		if (Input.GetKeyDown("r")) {
 			Respawn();
+		}
+	}
+
+	void UpdatePowerUps() {
+		if(activePowerUps != null) {
+			for(int i = activePowerUps.Count - 1; i >= 0; i--) {
+				ActivePowerUp apu = activePowerUps[i];
+				apu.durationLeft = apu.durationLeft - Time.deltaTime;
+				// Debug.Log("Apu " + i + ": Duration left: " + apu.durationLeft);
+				if(apu.durationLeft <= 0) {
+					apu.UnInit();
+					activePowerUps.RemoveAt(i);
+				}
+			}
+
+			if(activePowerUps.Count != 0 && powerUpDisplay != null) {
+				powerUpDisplay.SetActive(true);
+			} else {
+				powerUpDisplay.SetActive(false);
+			}
 		}
 	}
 
@@ -88,7 +139,7 @@ public class PlayerController : MonoBehaviour {
 		// movement
 		if(onGround) {
 			// calculate the velocity we want to have
-			float targetV = GetHorizontalInput() * moveSpeed;
+			float targetV = GetHorizontalInput() * moveSpeed * speedModifier;
 			// calculate velocity in movement direction
 			float currentV = Vector2.Dot(display.transform.right, rb.velocity);
 
@@ -142,15 +193,6 @@ public class PlayerController : MonoBehaviour {
 		anim.SetBool("onGround", onGround);
 	}
 
-	// /// <summary>
-	// /// Applies torque so that the character stands upright (rotation == 0)
-	// /// </summary>
-	// void GoUpright() {
-	// 	float torque = Mathf.DeltaAngle(rb.rotation, Vector2.SignedAngle(Vector2.up, lastGroundNormal)) * Mathf.Deg2Rad;
-	// 	torque = Mathf.Clamp(torque, -uprightTorque, uprightTorque);
-	// 	rb.AddTorque(torque, ForceMode2D.Impulse);
-	// }
-
 	float GetHorizontalInput() {
 		// TODO replace this with controller compatible solution
 		return (Input.GetKey("d")? 1f : 0f) - (Input.GetKey("a")? 1f : 0f);
@@ -160,6 +202,12 @@ public class PlayerController : MonoBehaviour {
 		if(other.gameObject.tag == "DamageZone") {
 			Respawn();
 		}
-		Debug.Log("TRIG");
+
+		if(other.GetComponent<PowerUpOnContact>() != null) {
+			this.activePowerUps.Add(new ActivePowerUp(other.GetComponent<PowerUpOnContact>().powerUp, this));
+			GameObject.Destroy(other.gameObject);
+		}
+
+		// Debug.Log("TRIG");
 	}
 }
