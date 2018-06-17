@@ -4,4 +4,5 @@
 *.meta linguist-vendored
 *.prefab linguist-vendored
 *.unity linguist-vendored
-[Rr]eleases/ linguist-vendored
+[Rr]eleases/* linguist-vendored
+*.aspx linguist-vendored
