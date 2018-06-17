@@ -1,4 +1,12 @@
-﻿using UnityEngine;
+﻿/// <summary>
+/// 2D triangulator
+/// Author: runevision
+/// Link: http://wiki.unity3d.com/index.php/Triangulator
+/// Not modified
+/// License: https://creativecommons.org/licenses/by-sa/3.0/
+/// </summary>
+
+using UnityEngine;
 using System.Collections.Generic;
  
 public class Triangulator

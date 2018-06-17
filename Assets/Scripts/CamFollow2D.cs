@@ -1,15 +1,14 @@
-﻿using System.Collections;
+﻿/// <summary>
+/// Follows the target object smoothly, does not rotate the camera
+/// </summary>
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CamFollow2D : MonoBehaviour {
 	public GameObject targetObject;	
 	public float lerpFactor = 1f;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {

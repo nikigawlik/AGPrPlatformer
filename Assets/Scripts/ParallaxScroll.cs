@@ -1,12 +1,19 @@
-﻿using System.Collections;
+﻿/// <summary>
+/// Creates a textured quad in the background which displays several
+/// background layers with parallax scrolling.
+/// </summary>
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ParallaxScroll : MonoBehaviour {
+	[Tooltip("textures of the parallax layers")]
 	public Texture2D[] textures;
 	public float minScroll = 0f;
 	public float maxScroll = 0.5f;
 	public Vector2 scrollMultiplier = new Vector2(1, 1);
+	[Tooltip("Material of the background layers")]
 	public Material material;
 	public Camera cam;
 
@@ -16,11 +23,14 @@ public class ParallaxScroll : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		orthoHeight = Camera.main.orthographicSize * 2;
+		// calculate the dimensions of the camera and screen
+		orthoHeight = cam.orthographicSize * 2;
 		orthoWidth = orthoHeight * Screen.width/ Screen.height;
 
+		// initialize array for the quads
 		planes = new GameObject[textures.Length];
 
+		// create several quads and assign textures, material and transformation
 		for(int i = 0; i < textures.Length; i++) {
 			GameObject g = GameObject.CreatePrimitive(PrimitiveType.Quad);
 			planes[i] = g;
@@ -38,6 +48,7 @@ public class ParallaxScroll : MonoBehaviour {
 	
     void LateUpdate() 
     {
+		// for every plane set the texture offset based on the calculated parallax scroll
 		for(int i = 0; i < planes.Length; i++) {
 			float scroll = minScroll + ((float)i / (planes.Length - 1)) * (maxScroll - minScroll);
 
