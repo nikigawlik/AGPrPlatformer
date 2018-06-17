@@ -1,0 +1,7 @@
+# Exclude files from linguist language detection used by github
+*.asset linguist-vendored
+*.mat linguist-vendored
+*.meta linguist-vendored
+*.prefab linguist-vendored
+*.unity linguist-vendored
+[Rr]eleases/ linguist-vendored
