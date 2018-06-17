@@ -56,9 +56,12 @@ public class ColliderToMesh : MonoBehaviour {
             int currentPointID = rightPointID;
             int runningID = 0;
                 
-            while(currentPointID != leftPointID) {
+            while(true) {
                 lr.positionCount = runningID + 1;
                 lr.SetPosition(runningID, new Vector3(points[currentPointID].x, points[currentPointID].y, 0));
+
+                if(currentPointID == leftPointID)
+                    break;
 
                 currentPointID++;
                 currentPointID = currentPointID % points.Length;

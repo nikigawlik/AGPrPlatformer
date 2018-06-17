@@ -45,7 +45,6 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody2D rb;
 	private Animator anim;
 
-	private Vector2 startPos;
 	private Vector2 lastGroundNormal = Vector2.up;
 
 	private List<ActivePowerUp> activePowerUps;
@@ -54,7 +53,6 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
 		rb = GetComponent<Rigidbody2D>();
 		anim = GetComponentInChildren<Animator>();
-		startPos = transform.position;
 
 		activePowerUps = new List<ActivePowerUp>();
 	}
