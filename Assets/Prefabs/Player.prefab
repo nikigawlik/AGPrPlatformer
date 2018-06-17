@@ -171,12 +171,10 @@ MonoBehaviour:
   moveSpeed: 6
   airSpeed: 1
   moveAcc: 0.8
-  uprightTorque: 0.2
   jumpStrength: 7
   groundRayLength: 0.1
-  numberOfRaycasts: 8
+  numberOfRaycasts: 16
   jumpCooldown: 0.1
-  speedModifier: 1
   display: {fileID: 1412917222660428}
   powerUpDisplay: {fileID: 1741234625539760}
 --- !u!198 &198008569132180378

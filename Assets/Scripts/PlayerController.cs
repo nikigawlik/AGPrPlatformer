@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour {
 	[Tooltip("extra distance for raycasts checking for ground. Accumulative with the size of the circle collider.")]
 	public float groundRayLength = 0.1f;
 	[Tooltip("Number of raycasts looking for ground in a circle.")]
-	public int numberOfRaycasts = 8;
+	public int numberOfRaycasts = 16;
 
 	[Tooltip("Time the player is unable to jump, right after having jumped, regardless of ground contact.")]
 	public float jumpCooldown = 0.2f;
